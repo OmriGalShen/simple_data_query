@@ -6,6 +6,7 @@ import api.Operator;
 import service.Operators.*;
 
 import static service.Parser.ParserUtility.*;
+import static service.Parser.ParserUtility.stringToCompareProperty;
 
 /**
  The main parser class.
@@ -71,38 +72,43 @@ public class QueryParser {
     }
 
     private static Operator createCompareOperator(StringQuery sq) throws QueryParseException{ // EQUAL, GREATER_THAN, LESS_THAN BETWEEN
+//        String value = sq.params[1]; // ["views","100"] -> "100"
 
-
-
-        String property = sq.params[0]; // ["views","100"] -> "views"
-        String value = sq.params[1]; // ["views","100"] -> "100"
-
-        CompareOperator.CompareProperty cp = stringToCompareProperty(property); // convert to appropriate enum, can throw
         Operator.Command op = stringToOperand(sq.op); // convert to appropriate enum, can throw
+        CompareOperator.CompareProperty cp;
 
         switch (op){
             case EQUAL:
+                cp = stringToCompareProperty(sq.params[0]); // convert to appropriate enum, can throw
                 if(sq.params.length!=2)
                     throw new QueryParseException(paramsErrorMsg("EQUAL",2,sq.params.length),
                             new Throwable("Error in createCompareOperator method"));
                 if(cp.equals(CompareOperator.CompareProperty.views)||cp.equals(CompareOperator.CompareProperty.timestamp)) // Integer Property
-                    return new EqualOperator<>(cp,getInteger(value)); // can throw
-                return new EqualOperator<>(cp,cutEdges(value,'\"','\"')); // String Property
+                    return new EqualOperator<>(cp,getInteger(sq.params[1])); // can throw
+                return new EqualOperator<>(cp,cutEdges(sq.params[1],'\"','\"')); // String Property
             case GREATER_THAN:
+                cp = stringToCompareProperty(sq.params[0]); // convert to appropriate enum, can throw
                 if(sq.params.length!=2)
                     throw new QueryParseException(paramsErrorMsg("GREATER_THAN",2,sq.params.length),
                             new Throwable("Error in createCompareOperator method"));
-                return new GreaterThenOperator(cp,getInteger(value)); // can throw
+                return new GreaterThenOperator(cp,getInteger(sq.params[1])); // can throw
             case LESS_THAN:
+                cp = stringToCompareProperty(sq.params[0]); // convert to appropriate enum, can throw
                 if(sq.params.length!=2)
                     throw new QueryParseException(paramsErrorMsg("LESS_THAN",2,sq.params.length),
                             new Throwable("Error in createCompareOperator method"));
-                return new LessThenOperator(cp,getInteger(value)); // can throw
+                return new LessThenOperator(cp,getInteger(sq.params[1])); // can throw
             case BETWEEN:
+                cp = stringToCompareProperty(sq.params[0]); // convert to appropriate enum, can throw
                 if(sq.params.length!=3)
                     throw new QueryParseException(paramsErrorMsg("LESS_THAN",3,sq.params.length),
                             new Throwable("Error in createCompareOperator method"));
-                return new BetweenOperator(cp,getInteger(value),getInteger(sq.params[2]));
+                return new BetweenOperator(cp,getInteger(sq.params[1]),getInteger(sq.params[2]));
+            case SORT_BY:
+                if(sq.params.length!=3)
+                    throw new QueryParseException(paramsErrorMsg("LESS_THAN",3,sq.params.length),
+                            new Throwable("Error in createCompareOperator method"));
+                return new SortByOperator(stringToQuery(sq.params[0]),stringToCompareProperty(sq.params[1]),sq.params[2].equals("true"));
         }
 
         throw new QueryParseException("Invalid query",new Throwable("Error in createCompareOperator method"));
