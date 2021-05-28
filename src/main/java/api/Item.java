@@ -74,4 +74,15 @@ public class Item implements Cloneable{
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    @Override
+    public String toString() {
+        return "Item{" + "\n" +
+                "id='" + id + '\'' + "\n" +
+                ", title='" + title + '\'' + "\n" +
+                ", content='" + content + '\'' + "\n" +
+                ", views=" + views + "\n" +
+                ", timestamp=" + timestamp + "\n" +
+                '}';
+    }
 }
