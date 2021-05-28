@@ -19,6 +19,6 @@ public class DeleteOperator extends BooleanOperator {
         Database db = Database.getInstance();
         HashSet<String> ketSet = operator.performOperator(keys);
         ketSet.forEach(db::removeItem);
-        return keys;
+        return new HashSet<>();
     }
 }
