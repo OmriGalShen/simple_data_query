@@ -9,6 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ A simple object used as temporary dummy database
+ The object is implemented using the singleton pattern
+ The data is saved using Hashmap with String id as keys and Items objects and values
+ **/
+
 public class Database {
     private static Database instance = null; // Singleton pattern
     private final HashMap<String,Item> db;

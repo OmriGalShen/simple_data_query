@@ -2,6 +2,10 @@ package service.Database;
 
 import java.util.HashSet;
 
+/**
+    A helper class for Database object with supporting static functions used for data manipulation
+ **/
+
 public class DBUtility {
 
     public static HashSet<String> Union(HashSet<String> first, HashSet<String> second){

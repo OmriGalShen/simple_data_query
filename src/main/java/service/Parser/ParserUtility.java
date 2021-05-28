@@ -4,6 +4,10 @@ import api.CompareOperator;
 import api.Operator;
 import api.QueryParseException;
 
+/**
+    A helper class with supporting static functions used for parsing
+ **/
+
 public class ParserUtility {
     static String[] processParams(String paramsString){
         String res = cutEdges(paramsString,'(',')'); // "(views,100)" -> "views,100"
