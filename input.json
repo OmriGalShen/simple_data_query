@@ -41,6 +41,13 @@
       "content": "\"Hello World!\"",
       "views": 500,
       "timestamp": 1555832341
+    },
+    {
+      "id": "s7",
+      "title": "\"My First Post\"",
+      "content": "\"Hello World!\"",
+      "views": 500,
+      "timestamp": 1555832341
     }
   ]
 }
