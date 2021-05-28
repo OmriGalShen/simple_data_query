@@ -25,7 +25,6 @@ public class ParserUtility {
             case "AND": return Operator.Command.AND;
             case "OR": return Operator.Command.OR;
             case "NOT": return Operator.Command.NOT;
-            case "SORT_BY": return Operator.Command.SORT_BY;
             case "BETWEEN": return Operator.Command.BETWEEN;
             case "UPDATE": return Operator.Command.UPDATE;
             case "DELETE": return Operator.Command.DELETE;

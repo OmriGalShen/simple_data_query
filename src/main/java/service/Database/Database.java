@@ -27,6 +27,8 @@ public class Database {
 
     public Item getItem(String key){return db.get(key);}
 
+    public void removeItem(String key){ db.remove(key);}
+
     public boolean contains(String id) {return db.containsKey(id);}
 
     public void insert(Item item) throws Exception {
