@@ -30,11 +30,12 @@ API consists of two end-points - one to store data and one to retrieve it.
 | LESS_THAN(property,value) <br> Filters only values for which property is less than the given value. Valid only for number values.| LESS_THAN(views,100) |
 | AND(a,b) <br> Filters only values for which both a and b are true.| AND(EQUAL(id,"first-post"),EQUAL(views,100)) | 
 | OR(a,b) <br> Filters only values for which either a or b is true (or both).| OR(EQUAL(id,"first-post"),EQUAL(id,"second-post")) | 
-| NOT(a) <br> Filters only values for which a is false.| NOT(EQUAL(id,"first-post")) | 
-| SORT_BY(a,boolean) <br> Filters only values for which a is true and sort ascending if true otherwise descending.| SORT_BY(GREATER_THAN(views,100),false) |   
-| BETWEEN(property,value,value) <br> Filters only values for which property is between the given value. Valid only for number values.| BETWEEN(views,20,100) | 
-| UPDATE(id,property,value) <br> Update an item with a new property value| UPDATE("first-post",views,500) | 
-| DELETE(id) <br> Delete an item from database| DELETE("first-post") | 
+| NOT(a) <br> Filters only values for which a is false.| NOT(EQUAL(id,"first-post")) |
+| BETWEEN(property,value,value) * NEW <br> Filters only values for which property is between the given value. Valid only for number values.| BETWEEN(views,20,100) | 
+| UPDATE(id,property,value) * NEW <br> Update an item with a new property value| UPDATE("first-post",views,500) | 
+| DELETE(id) * NEW <br> Delete an item from database| DELETE("first-post") |
+| BIGGEST(property) * NEW <br> Filters only values for which property is the largest Valid only for number property | BIGGEST(views) |
+| SMALLEST(property) * NEW <br> Filters only values for which property is the largest Valid only for number property | SMALLEST(views) |
 
 
 ## Troubleshooting

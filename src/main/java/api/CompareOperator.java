@@ -8,8 +8,7 @@ public abstract class CompareOperator<T> extends Operator {
         EQUAL,
         GREATER_THAN,
         LESS_THAN,
-        BETWEEN,
-        SORT_BY
+        BETWEEN
     }
 
     public enum CompareProperty {

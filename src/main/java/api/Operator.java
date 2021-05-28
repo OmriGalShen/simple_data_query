@@ -10,7 +10,6 @@ public abstract class Operator {
         AND,
         OR,
         NOT,
-        SORT_BY,
         BETWEEN,
         UPDATE,
         DELETE,
