@@ -28,8 +28,9 @@ public class ParserUtility {
             case "BETWEEN": return Operator.Command.BETWEEN;
             case "UPDATE": return Operator.Command.UPDATE;
             case "DELETE": return Operator.Command.DELETE;
-            case "BIGGEST": return Operator.Command.BIGGEST;
-            case "SMALLEST": return Operator.Command.SMALLEST;
+            case "MAX": return Operator.Command.MAX;
+            case "MIN": return Operator.Command.MIN;
+            case "ALL": return Operator.Command.ALL;
             default: throw new QueryParseException("Invalid query: Invalid Operator",new Throwable("Error in stringToOperand method"));
         }
     }
@@ -53,10 +54,5 @@ public class ParserUtility {
             throw new QueryParseException("Invalid query: Invalid value for comparison",e);
         }
     }
-
-    static String paramsErrorMsg(String op, int expected,int got){
-        return "Invalid query: Incorrect number of "+op+" parameters expected:"+expected+" got:"+got;
-    }
-
 
 }

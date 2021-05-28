@@ -13,8 +13,9 @@ public abstract class Operator {
         BETWEEN,
         UPDATE,
         DELETE,
-        BIGGEST,
-        SMALLEST
+        MAX,
+        MIN,
+        ALL
     }
     Command cmd = null;
 

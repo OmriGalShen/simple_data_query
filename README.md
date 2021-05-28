@@ -34,8 +34,9 @@ API consists of two end-points - one to store data and one to retrieve it.
 | BETWEEN(property,value,value) * NEW <br> Filters only values for which property is between the given value. Valid only for number values.| BETWEEN(views,20,100) | 
 | UPDATE(property,value,a) * NEW <br> Update property where a is true| UPDATE(EQUAL(id,"first-post"),views,500) | 
 | DELETE(a) * NEW <br> Delete values where a is true| DELETE(EQUAL(id,"first-post")) |
-| BIGGEST(property) * NEW <br> Filters only values for which property is the largest Valid only for number property | BIGGEST(views) |
-| SMALLEST(property) * NEW <br> Filters only values for which property is the largest Valid only for number property | SMALLEST(views) |
+| MAX(property,a) * NEW <br> Filters only values for which property is the largest, valid only for number property where a is true| MAX(views,EQUAL(id,"first-post")) |
+| MIN(property,a) * NEW <br> Filters only values for which property is the smallest, valid only for number property where a is true | MIN(views,EQUAL(id,"first-post")) |
+| ALL() * NEW <br> Return all values | ALL() |
 
 
 ## Troubleshooting

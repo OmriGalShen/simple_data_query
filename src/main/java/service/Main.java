@@ -37,7 +37,7 @@ public class Main {
                 }
                 handler.outputItems(outputItems);
             }
-            catch (QueryParseException e){
+            catch (QueryParseException | NoDataFound e){
                 System.out.println(e.getMessage());
             }
         }

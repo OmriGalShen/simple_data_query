@@ -6,7 +6,8 @@ public abstract class BooleanOperator extends Operator {
         AND,
         OR,
         NOT,
-        DELETE
+        DELETE,
+        ALL
     }
 
     public BooleanOperator(Command cmd) {

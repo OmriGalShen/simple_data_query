@@ -9,7 +9,9 @@ public abstract class CompareOperator<T> extends Operator {
         GREATER_THAN,
         LESS_THAN,
         BETWEEN,
-        UPDATE
+        UPDATE,
+        MAX,
+        MIN
     }
 
     public enum CompareProperty {
