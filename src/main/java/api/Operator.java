@@ -9,7 +9,13 @@ public abstract class Operator {
         LESS_THAN,
         AND,
         OR,
-        NOT
+        NOT,
+        SORT_BY,
+        BETWEEN,
+        UPDATE,
+        DELETE,
+        BIGGEST,
+        SMALLEST
     }
     Command cmd = null;
 
