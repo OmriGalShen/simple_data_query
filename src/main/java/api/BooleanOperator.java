@@ -5,7 +5,8 @@ public abstract class BooleanOperator extends Operator {
     public enum BooleanCommand {
         AND,
         OR,
-        NOT
+        NOT,
+        DELETE
     }
 
     public BooleanOperator(Command cmd) {

@@ -1,19 +1,24 @@
 package service.Operators;
 
-import api.ModifyOperator;
+import api.BooleanOperator;
+import api.Operator;
 import service.Database.Database;
 
 import java.util.HashSet;
 
-public class DeleteOperator extends ModifyOperator {
-    public DeleteOperator(Command cmd, String id) {
-        super(cmd, id);
+public class DeleteOperator extends BooleanOperator {
+    private final Operator operator;
+
+    public DeleteOperator(Operator operator) {
+        super(Command.DELETE);
+        this.operator = operator;
     }
 
     @Override
     public HashSet<String> performOperator(HashSet<String> keys){
         Database db = Database.getInstance();
-        db.removeItem(id);
+        HashSet<String> ketSet = operator.performOperator(keys);
+        ketSet.forEach(db::removeItem);
         return keys;
     }
 }

@@ -27,7 +27,7 @@ public class Main {
             String query = scan.nextLine();  // Read user input
             try {
                 Item[] outputItems = dataQueryService.query(query).toArray(new Item[0]);
-                System.out.println(outputItems.length + " results were found (out of " + items.length + " items)");
+                System.out.println(outputItems.length + " results were found (out of " + Database.getInstance().getAllKeysSet().size() + " items)");
                 System.out.println("Results saved to output.json");
                 System.out.print("Display results (y/n)? ");
                 String answer = scan.nextLine();
