@@ -62,16 +62,17 @@ public class QueryParser {
                 if(sq.params.length!=2)
                     throw new QueryParseException(paramsErrorMsg("AND",2,sq.params.length),error);
                 return new OrOperator(stringToQuery(sq.params[0]),stringToQuery(sq.params[1]));
+            case BETWEEN:
+                if(sq.params.length!=3)
+                    throw new QueryParseException(paramsErrorMsg("BETWEEN",3,sq.params.length),error);
         }
 
         throw new QueryParseException("Invalid query",new Throwable("Error in createBooleanOperator method"));
     }
 
-    private static Operator createCompareOperator(StringQuery sq) throws QueryParseException{ // EQUAL, GREATER_THAN, LESS_THAN
+    private static Operator createCompareOperator(StringQuery sq) throws QueryParseException{ // EQUAL, GREATER_THAN, LESS_THAN BETWEEN
 
-        if(sq.params.length!=2)
-            throw new QueryParseException(paramsErrorMsg("Compare",2,sq.params.length),
-                    new Throwable("Error in createCompareOperator method"));
+
 
         String property = sq.params[0]; // ["views","100"] -> "views"
         String value = sq.params[1]; // ["views","100"] -> "100"
@@ -81,11 +82,27 @@ public class QueryParser {
 
         switch (op){
             case EQUAL:
+                if(sq.params.length!=2)
+                    throw new QueryParseException(paramsErrorMsg("EQUAL",2,sq.params.length),
+                            new Throwable("Error in createCompareOperator method"));
                 if(cp.equals(CompareOperator.CompareProperty.views)||cp.equals(CompareOperator.CompareProperty.timestamp)) // Integer Property
                     return new EqualOperator<>(cp,getInteger(value)); // can throw
                 return new EqualOperator<>(cp,cutEdges(value,'\"','\"')); // String Property
-            case GREATER_THAN:return new GreaterThenOperator(cp,getInteger(value)); // can throw
-            case LESS_THAN: return new LessThenOperator(cp,getInteger(value)); // can throw
+            case GREATER_THAN:
+                if(sq.params.length!=2)
+                    throw new QueryParseException(paramsErrorMsg("GREATER_THAN",2,sq.params.length),
+                            new Throwable("Error in createCompareOperator method"));
+                return new GreaterThenOperator(cp,getInteger(value)); // can throw
+            case LESS_THAN:
+                if(sq.params.length!=2)
+                    throw new QueryParseException(paramsErrorMsg("LESS_THAN",2,sq.params.length),
+                            new Throwable("Error in createCompareOperator method"));
+                return new LessThenOperator(cp,getInteger(value)); // can throw
+            case BETWEEN:
+                if(sq.params.length!=3)
+                    throw new QueryParseException(paramsErrorMsg("LESS_THAN",3,sq.params.length),
+                            new Throwable("Error in createCompareOperator method"));
+                return new BetweenOperator(cp,getInteger(value),getInteger(sq.params[2]));
         }
 
         throw new QueryParseException("Invalid query",new Throwable("Error in createCompareOperator method"));
