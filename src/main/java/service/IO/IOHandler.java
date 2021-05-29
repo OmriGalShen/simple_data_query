@@ -4,8 +4,10 @@ import api.Item;
 import com.google.gson.Gson;
 
 import java.io.*;
-import java.util.List;
 
+/**
+ * Handle read/write of json files
+ */
 public class IOHandler {
 
     private final String inputPath,outputPath;
