@@ -51,19 +51,19 @@ public class QueryParser {
 
         switch (op){
             case NOT:
-                checkParam(sq.op,1,paramLen);
+                checkParamCount(sq.op,1,paramLen);
                 return new NotOperator(stringToQuery(sq.params[0]));
             case AND:
-                checkParam(sq.op,2,paramLen);
+                checkParamCount(sq.op,2,paramLen);
                 return new AndOperator(stringToQuery(sq.params[0]),stringToQuery(sq.params[1]));
             case OR:
-                checkParam(sq.op,2,paramLen);
+                checkParamCount(sq.op,2,paramLen);
                 return new OrOperator(stringToQuery(sq.params[0]),stringToQuery(sq.params[1]));
             case DELETE:
-                checkParam(sq.op,1,paramLen);
+                checkParamCount(sq.op,1,paramLen);
                 return new DeleteOperator(stringToQuery(sq.params[0]));
             case ALL:
-                checkParam(sq.op,1,paramLen);
+                checkParamCount(sq.op,1,paramLen);
                 return new AllOperator();
         }
 
@@ -83,37 +83,37 @@ public class QueryParser {
 
         switch (op){
             case EQUAL:
-                checkParam(sq.op,2,paramLen);
+                checkParamCount(sq.op,2,paramLen);
                 if(isIntProp) // Integer Property
                     return new EqualOperator<>(cp,getInteger(value)); // can throw
                 return new EqualOperator<>(cp,cutEdges(value,'\"','\"')); // String Property
             case GREATER_THAN:
-                checkParam(sq.op,2,paramLen);
+                checkParamCount(sq.op,2,paramLen);
                 if(isIntProp) // Integer Property
                     return new GreaterThenOperator(cp,getInteger(value)); // can throw
                 break;
             case LESS_THAN:
-                checkParam(sq.op,2,paramLen);
+                checkParamCount(sq.op,2,paramLen);
                 if(isIntProp) // Integer Property
                      return new LessThenOperator(cp,getInteger(value)); // can throw
                 break;
             case BETWEEN:
-                checkParam(sq.op,3,paramLen);
+                checkParamCount(sq.op,3,paramLen);
                 if(isIntProp) // Integer Property
                     return new BetweenOperator(cp,getInteger(value),getInteger(sq.params[2]));
                 break;
             case UPDATE:
-                checkParam(sq.op,3,paramLen);
+                checkParamCount(sq.op,3,paramLen);
                 if(isIntProp) // Integer Property
                     return new UpdateOperator<>(cp,getInteger(value),stringToQuery(sq.params[2])); // can throw
                 return new UpdateOperator<>(cp,cutEdges(value,'\"','\"'),stringToQuery(sq.params[2])); // String Property
             case MAX:
-                checkParam(sq.op,2,paramLen);
+                checkParamCount(sq.op,2,paramLen);
                 if(isIntProp) // Integer Property
                     return new MaxOperator(cp,stringToQuery(value)); // can throw
                 break;
             case MIN:
-                checkParam(sq.op,2,paramLen);
+                checkParamCount(sq.op,2,paramLen);
                 if(isIntProp) // Integer Property
                     return new MinOperator(cp,stringToQuery(value)); // can throw
                 break;
@@ -122,7 +122,7 @@ public class QueryParser {
         throw new QueryParseException("Invalid query",new Throwable("Error in createCompareOperator method"));
     }
 
-    private static void checkParam(String op, int expected,int got) throws QueryParseException {
+    private static void checkParamCount(String op, int expected, int got) throws QueryParseException {
         if(expected!=got)
         throw new QueryParseException("Invalid query: Incorrect number of "+op+" parameters expected:"+expected+" got:"+got,
                 new Throwable("Error in checkParam method"));
