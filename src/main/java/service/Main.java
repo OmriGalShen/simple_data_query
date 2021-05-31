@@ -53,21 +53,31 @@ public class Main {
 
     private static void printHelp(){
         System.out.println(
-                    "EQUAL(property,value) Filters only values which have matching property value.\n e.g: EQUAL(id,\"s1\") \n" +
-                    "GREATER_THAN(property,value) Filters only values for which property is greater than the given value. Valid only for number values.\n e.g: GREATER_THAN(views,100) \n" +
-                    "LESS_THAN(property,value)  Filters only values for which property is less than the given value. Valid only for number values.\n e.g:LESS_THAN(views,100) \n" +
-                    "AND(a,b)  Filters only values for which both a and b are true.\n e.g: AND(EQUAL(id,\"s1\"),EQUAL(views,100))\n" +
-                    "OR(a,b)  Filters only values for which either a or b is true (or both).\n e.g: OR(EQUAL(id,\"s1\"),EQUAL(id,\"s2\"))\n" +
-                    "NOT(a)  Filters only values for which a is false.\n e.g: NOT(EQUAL(id,\"s1\"))\n" +
-                    "BETWEEN(property,value,value) Filters only values for which property is between the given value. Valid only for number values.\n e.g: BETWEEN(views,20,100)\n" +
-                    "UPDATE(a,property,value) Update property where a is true.\n e.g: UPDATE(EQUAL(id,\"s1\"),views,500)\n" +
-                    "DELETE(a) Delete values where a is true.\n e.g: DELETE(EQUAL(id,\"s1\"))\n" +
-                    "MAX(property,a) Filters only value for which property is the maximum, valid only for number property and where a is true.\n e.g:MAX(views,EQUAL(title,\"My First Post\"))\n" +
-                    "MIN(property,a) Filters only value for which property is the minimum, valid only for number property and where a is true.\n e.g:MIN(views,GREATER_THAN(views,20))\n" +
-                    "ALL() Return all values.\n e.g:ALL()\n");
-        System.out.print("Press enter to continue");
-        Scanner scan = new Scanner(System.in);
-        scan.nextLine();
+                    "---------------------------------------------------\n" +
+                    "Operator:EQUAL(property,value)\nDescription:Filters only values which have matching property value.\nExample:EQUAL(id,\"s1\") \n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:GREATER_THAN(property,value)\nDescription:Filters only values for which property is greater than the given value. Valid only for number values.\nExample:GREATER_THAN(views,100) \n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:LESS_THAN(property,value)\nDescription:Filters only values for which property is less than the given value. Valid only for number values.\nExample:LESS_THAN(views,100) \n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:AND(a,b)\nDescription:Filters only values for which both a and b are true.\nExample:AND(EQUAL(id,\"s1\"),EQUAL(views,100))\n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:OR(a,b)\nDescription:Filters only values for which either a or b is true (or both).\nExample:OR(EQUAL(id,\"s1\"),EQUAL(id,\"s2\"))\n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:NOT(a)\nDescription:Filters only values for which a is false.\nExample:NOT(EQUAL(id,\"s1\"))\n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:BETWEEN(property,value,value)\nDescription:Filters only values for which property is between the given value. Valid only for number values.\nExample:BETWEEN(views,20,100)\n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:UPDATE(a,property,value)\nDescription:Update property where a is true.\nExample:UPDATE(EQUAL(id,\"s1\"),views,500)\n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:DELETE(a)\nDescription:Delete values where a is true.\nExample:DELETE(EQUAL(id,\"s1\"))\n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:MAX(property,a)\nDescription:Filters only value for which property is the maximum, valid only for number property and where a is true.\nExample:MAX(views,EQUAL(title,\"My First Post\"))\n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:MIN(property,a)\nDescription:Filters only value for which property is the minimum, valid only for number property and where a is true.\nExample:MIN(views,GREATER_THAN(views,20))\n" +
+                            "---------------------------------------------------\n" +
+                            "Operator:ALL()\nDescription:Return all values.\nExample:ALL()\n" +
+        "---------------------------------------------------\n");
     }
 
 }
