@@ -81,6 +81,9 @@ public class QueryParser {
 
         int paramLen = sq.params.length;
 
+        QueryParseException propertyError = new QueryParseException("Invalid query: Invalid property for comparison",
+                new Throwable("Error in createCompareOperator method"));
+
         switch (op){
             case EQUAL: //EQUAL(property,value)
                 checkParamCount(sq.op,2,paramLen);
@@ -91,28 +94,28 @@ public class QueryParser {
                 checkParamCount(sq.op,2,paramLen);
                 if(isIntProperty(cp))
                     return new GreaterThenOperator(cp,getInteger(value)); // can throw
-                break;
+                throw propertyError;
             case LESS_THAN: //LESS_THAN(property,value)
                 checkParamCount(sq.op,2,paramLen);
                 if(isIntProperty(cp))
                      return new LessThenOperator(cp,getInteger(value)); // can throw
-                break;
+                throw propertyError;
             case BETWEEN: //BETWEEN(property,value,value)
                 checkParamCount(sq.op,3,paramLen);
                 String secondValue = sq.params[2];
                 if(isIntProperty(cp))
                     return new BetweenOperator(cp,getInteger(value),getInteger(secondValue));
-                break;
+                throw propertyError;
             case MAX: //MAX(property,a)
                 checkParamCount(sq.op,2,paramLen);
                 if(isIntProperty(cp))
                     return new MaxOperator(cp,stringToQuery(value)); // can throw
-                break;
+                throw propertyError;
             case MIN: //MIN(property,a)
                 checkParamCount(sq.op,2,paramLen);
                 if(isIntProperty(cp))
                     return new MinOperator(cp,stringToQuery(value)); // can throw
-                break;
+                throw propertyError;
         }
         throw new QueryParseException("Invalid query",new Throwable("Error in createCompareOperator method"));
     }
