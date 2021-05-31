@@ -107,7 +107,7 @@ public class DataQueryServiceTest {
         item1.setId("id1");
         item1.setViews(500);
         dataQueryService.save(item1);
-        dataQueryService.query("UPDATE(views,1000,EQUAL(id,\"id1\"))");
+        dataQueryService.query("UPDATE(EQUAL(id,\"id1\"),views,1000)");
         assertEquals(true, dataQueryService.query("EQUAL(id,\"id1\")").get(0).getViews()==1000);
     }
 

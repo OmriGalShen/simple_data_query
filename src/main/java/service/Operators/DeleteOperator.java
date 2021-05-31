@@ -1,12 +1,13 @@
 package service.Operators;
 
 import api.BooleanOperator;
+import api.ModifyOperator;
 import api.Operator;
 import service.Database.Database;
 
 import java.util.HashSet;
 
-public class DeleteOperator extends BooleanOperator {
+public class DeleteOperator extends ModifyOperator {
     private final Operator operator;
 
     public DeleteOperator(Operator operator) {

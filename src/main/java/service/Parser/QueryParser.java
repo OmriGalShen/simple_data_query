@@ -10,7 +10,8 @@ import static service.Parser.ParserUtility.*;
 /**
  The main parser class.
  The class supplies a static method to process
- Strings in agreed-upon query form to Operator objects used to manipulate data
+ Strings in agreed-upon query form to Operator objects
+ used to retrieve and manipulate database data
  **/
 
 public class QueryParser {
@@ -39,30 +40,31 @@ public class QueryParser {
     private static Operator createOperator(StringQuery sq) throws QueryParseException {
         if(!Operator.isCommand(sq.op))
             throw new QueryParseException("Invalid query: Invalid Operator",new Throwable("Error in createOperator method"));
-        if (BooleanOperator.isBooleanCommand(sq.op)) return createBooleanOperator(sq); // AND, OR, NOT
-        if (CompareOperator.isCompareCommand(sq.op)) return createCompareOperator(sq); // EQUAL, GREATER_THAN, LESS_THAN
+        if (BooleanOperator.isBooleanCommand(sq.op)) // AND, OR, NOT, ALL
+            return createBooleanOperator(sq);
+        if (CompareOperator.isCompareCommand(sq.op))// EQUAL, GREATER_THAN, LESS_THAN, BETWEEN, MAX, MIN
+            return createCompareOperator(sq);
+        if(ModifyOperator.isModifyCommand(sq.op)) // UPDATE, DELETE
+            return createModifyOperator(sq);
         throw new QueryParseException("Invalid query: Invalid Operator",new Throwable("Error in createOperator method"));
     }
 
-    private static Operator createBooleanOperator(StringQuery sq) throws QueryParseException{ // AND, OR, NOT
+    private static Operator createBooleanOperator(StringQuery sq) throws QueryParseException{ // AND, OR, NOT ALL
         Operator.Command op = stringToOperand(sq.op); // convert to appropriate enum, can throw
 
         int paramLen = sq.params.length;
 
         switch (op){
-            case NOT:
+            case NOT: //NOT(a)
                 checkParamCount(sq.op,1,paramLen);
                 return new NotOperator(stringToQuery(sq.params[0]));
-            case AND:
+            case AND: //AND(a,b)
                 checkParamCount(sq.op,2,paramLen);
                 return new AndOperator(stringToQuery(sq.params[0]),stringToQuery(sq.params[1]));
-            case OR:
+            case OR: //OR(a,b)
                 checkParamCount(sq.op,2,paramLen);
                 return new OrOperator(stringToQuery(sq.params[0]),stringToQuery(sq.params[1]));
-            case DELETE:
-                checkParamCount(sq.op,1,paramLen);
-                return new DeleteOperator(stringToQuery(sq.params[0]));
-            case ALL:
+            case ALL: //ALL()
                 checkParamCount(sq.op,1,paramLen);
                 return new AllOperator();
         }
@@ -70,62 +72,73 @@ public class QueryParser {
         throw new QueryParseException("Invalid query",new Throwable("Error in createBooleanOperator method"));
     }
 
-    private static Operator createCompareOperator(StringQuery sq) throws QueryParseException{ // UPDATE DELETE
+    private static Operator createCompareOperator(StringQuery sq) throws QueryParseException{ /// EQUAL, GREATER_THAN, LESS_THAN, BETWEEN, MAX, MIN
         String property = sq.params[0]; // ["views","100"] -> "views"
         String value = sq.params[1]; // ["views","100"] -> "100"
 
-        CompareOperator.CompareProperty cp = stringToCompareProperty(property); // convert to appropriate enum, can throw
+        Operator.CompareProperty cp = stringToCompareProperty(property); // convert to appropriate enum, can throw
         Operator.Command op = stringToOperand(sq.op); // convert to appropriate enum, can throw
-
-        boolean isIntProp = cp.equals(CompareOperator.CompareProperty.views) || cp.equals(CompareOperator.CompareProperty.timestamp);
 
         int paramLen = sq.params.length;
 
         switch (op){
-            case EQUAL:
+            case EQUAL: //EQUAL(property,value)
                 checkParamCount(sq.op,2,paramLen);
-                if(isIntProp) // Integer Property
+                if(isIntProperty(cp))
                     return new EqualOperator<>(cp,getInteger(value)); // can throw
-                return new EqualOperator<>(cp,cutEdges(value,'\"','\"')); // String Property
-            case GREATER_THAN:
+                return new EqualOperator<>(cp,getString(value)); // String Property
+            case GREATER_THAN: //GREATER_THAN(property,value)
                 checkParamCount(sq.op,2,paramLen);
-                if(isIntProp) // Integer Property
+                if(isIntProperty(cp))
                     return new GreaterThenOperator(cp,getInteger(value)); // can throw
                 break;
-            case LESS_THAN:
+            case LESS_THAN: //LESS_THAN(property,value)
                 checkParamCount(sq.op,2,paramLen);
-                if(isIntProp) // Integer Property
+                if(isIntProperty(cp))
                      return new LessThenOperator(cp,getInteger(value)); // can throw
                 break;
-            case BETWEEN:
+            case BETWEEN: //BETWEEN(property,value,value)
                 checkParamCount(sq.op,3,paramLen);
-                if(isIntProp) // Integer Property
-                    return new BetweenOperator(cp,getInteger(value),getInteger(sq.params[2]));
+                String secondValue = sq.params[2];
+                if(isIntProperty(cp))
+                    return new BetweenOperator(cp,getInteger(value),getInteger(secondValue));
                 break;
-            case UPDATE:
-                checkParamCount(sq.op,3,paramLen);
-                if(isIntProp) // Integer Property
-                    return new UpdateOperator<>(cp,getInteger(value),stringToQuery(sq.params[2])); // can throw
-                return new UpdateOperator<>(cp,cutEdges(value,'\"','\"'),stringToQuery(sq.params[2])); // String Property
-            case MAX:
+            case MAX: //MAX(property,a)
                 checkParamCount(sq.op,2,paramLen);
-                if(isIntProp) // Integer Property
+                if(isIntProperty(cp))
                     return new MaxOperator(cp,stringToQuery(value)); // can throw
                 break;
-            case MIN:
+            case MIN: //MIN(property,a)
                 checkParamCount(sq.op,2,paramLen);
-                if(isIntProp) // Integer Property
+                if(isIntProperty(cp))
                     return new MinOperator(cp,stringToQuery(value)); // can throw
                 break;
         }
-
         throw new QueryParseException("Invalid query",new Throwable("Error in createCompareOperator method"));
     }
 
-    private static void checkParamCount(String op, int expected, int got) throws QueryParseException {
-        if(expected!=got)
-        throw new QueryParseException("Invalid query: Incorrect number of "+op+" parameters expected:"+expected+" got:"+got,
-                new Throwable("Error in checkParam method"));
+    private static Operator createModifyOperator(StringQuery sq) throws QueryParseException{ // UPDATE, DELETE
+        Operator.Command op = stringToOperand(sq.op); // convert to appropriate enum, can throw
+
+        int paramLen = sq.params.length;
+
+        switch (op){
+            case DELETE: //DELETE(a)
+                checkParamCount(sq.op,1,paramLen);
+                return new DeleteOperator(stringToQuery(sq.params[0]));
+            case UPDATE: //UPDATE(a,property,value)
+                String query = sq.params[0];
+                checkParamCount(sq.op,3,paramLen);
+                Operator.CompareProperty cp = stringToCompareProperty(sq.params[1]); // convert to appropriate enum, can throw
+                String value = sq.params[2];
+                if(isIntProperty(cp))
+                    return new UpdateOperator<>(stringToQuery(query),cp,getInteger(value)); // can throw
+                return new UpdateOperator<>(stringToQuery(query),cp,getString(value));
+        }
+
+        throw new QueryParseException("Invalid query",new Throwable("Error in createModifyOperator method"));
     }
+
+
 
 }

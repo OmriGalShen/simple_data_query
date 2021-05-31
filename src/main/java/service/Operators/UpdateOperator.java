@@ -1,17 +1,23 @@
 package service.Operators;
 
+import api.BooleanOperator;
 import api.CompareOperator;
+import api.ModifyOperator;
 import api.Operator;
 import service.Database.Database;
 
 import java.util.HashSet;
 
-public class UpdateOperator<T> extends CompareOperator<T> {
+public class UpdateOperator<T> extends ModifyOperator {
     private final Operator operator;
+    protected final CompareOperator.CompareProperty property;
+    protected final T value;
 
-    public UpdateOperator(CompareProperty property, T value, Operator operator) {
-        super(Command.UPDATE, property, value);
+    public UpdateOperator(Operator operator, CompareOperator.CompareProperty property, T value) {
+        super(Command.UPDATE);
         this.operator = operator;
+        this.property = property;
+        this.value = value;
     }
 
     @Override

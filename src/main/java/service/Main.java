@@ -29,7 +29,7 @@ public class Main {
         while (keepLoop) {
             System.out.println("tip: type 'help' for query list or 'exit' to abort");
             System.out.print("Enter valid query: ");
-            String query = scan.nextLine();
+            String query = scan.nextLine().trim();
             if (query.equalsIgnoreCase("help")) printHelp();
             else if(query.equalsIgnoreCase("exit")) keepLoop = false;
             else {
@@ -60,7 +60,7 @@ public class Main {
                     "OR(a,b)  Filters only values for which either a or b is true (or both).\n e.g: OR(EQUAL(id,\"s1\"),EQUAL(id,\"s2\"))\n" +
                     "NOT(a)  Filters only values for which a is false.\n e.g: NOT(EQUAL(id,\"s1\"))\n" +
                     "BETWEEN(property,value,value) Filters only values for which property is between the given value. Valid only for number values.\n e.g: BETWEEN(views,20,100)\n" +
-                    "UPDATE(property,value,a) Update property where a is true.\n e.g: UPDATE(views,500,EQUAL(id,\"s1\"))\n" +
+                    "UPDATE(a,property,value) Update property where a is true.\n e.g: UPDATE(EQUAL(id,\"s1\"),views,500)\n" +
                     "DELETE(a) Delete values where a is true.\n e.g: DELETE(EQUAL(id,\"s1\"))\n" +
                     "MAX(property,a) Filters only value for which property is the maximum, valid only for number property and where a is true.\n e.g:MAX(views,EQUAL(title,\"My First Post\"))\n" +
                     "MIN(property,a) Filters only value for which property is the minimum, valid only for number property and where a is true.\n e.g:MIN(views,GREATER_THAN(views,20))\n" +

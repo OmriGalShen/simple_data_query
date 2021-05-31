@@ -32,7 +32,7 @@ API consists of two end-points - one to store data and one to retrieve it.
 | OR(a,b) <br> Filters only values for which either a or b is true (or both).| OR(EQUAL(id,"first-post"),EQUAL(id,"second-post")) | 
 | NOT(a) <br> Filters only values for which a is false.| NOT(EQUAL(id,"first-post")) |
 | BETWEEN(property,value,value) * NEW <br> Filters only values for which property is between the given value. Valid only for number values.| BETWEEN(views,20,100) | 
-| UPDATE(property,value,a) * NEW <br> Update property where a is true| UPDATE(views,500,EQUAL(id,"first-post")) | 
+| UPDATE(a,property,value) * NEW <br> Update property where a is true| UPDATE(EQUAL(id,"first-post"),views,500) | 
 | DELETE(a) * NEW <br> Delete values where a is true| DELETE(EQUAL(id,"first-post")) |
 | MAX(property,a) * NEW <br> Filters only value for which property is the maximum, valid only for number property and where a is true| MAX(views,EQUAL(title,"My First Post")) |
 | MIN(property,a) * NEW <br> Filters only value for which property is the minimum, valid only for number property and where a is true | MIN(views,GREATER_THAN(views,20)) |

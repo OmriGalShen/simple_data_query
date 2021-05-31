@@ -14,12 +14,14 @@ public class ParserUtility {
        return res.split(",(?![^()]*\\))"); // "views,100" -> ["views","100"]
     }
 
-     static String cutEdges(String str,char left,char right){
+    static String cutEdges(String str,char left,char right){
         if(str.charAt(0)==left&&str.charAt(str.length()-1)==right) {
             return str.substring(1,str.length()-1);
         }
         return str;
     }
+
+    static String getString(String str){return cutEdges(str,'\"','\"');}
 
     static Operator.Command stringToOperand(String op) throws QueryParseException {
         switch (op){
@@ -39,13 +41,13 @@ public class ParserUtility {
         }
     }
 
-    static CompareOperator.CompareProperty stringToCompareProperty(String op) throws QueryParseException {
+    static Operator.CompareProperty stringToCompareProperty(String op) throws QueryParseException {
         switch (op){
-            case "id":return CompareOperator.CompareProperty.id;
-            case "title":return CompareOperator.CompareProperty.title;
-            case "content":return CompareOperator.CompareProperty.content;
-            case "views":return CompareOperator.CompareProperty.views;
-            case "timestamp":return CompareOperator.CompareProperty.timestamp;
+            case "id":return Operator.CompareProperty.id;
+            case "title":return Operator.CompareProperty.title;
+            case "content":return Operator.CompareProperty.content;
+            case "views":return Operator.CompareProperty.views;
+            case "timestamp":return Operator.CompareProperty.timestamp;
             default: throw new QueryParseException("Invalid query: Invalid CompareProperty",new Throwable("Error in stringToCompareProperty method"));
         }
     }
@@ -58,5 +60,15 @@ public class ParserUtility {
             throw new QueryParseException("Invalid query: Invalid value for comparison",e);
         }
     }
+
+    static void checkParamCount(String op, int expected, int got) throws QueryParseException {
+        if(expected!=got)
+            throw new QueryParseException("Invalid query: Incorrect number of "+op+" parameters expected:"+expected+" got:"+got,
+                    new Throwable("Error in checkParam method"));
+    }
+
+    static boolean isIntProperty(Operator.CompareProperty cp){
+            return cp.equals(Operator.CompareProperty.views) || cp.equals(Operator.CompareProperty.timestamp);
+    };
 
 }

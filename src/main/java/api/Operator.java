@@ -22,7 +22,16 @@ public abstract class Operator {
         MIN,
         ALL
     }
-    Command cmd = null;
+
+    public enum CompareProperty {
+        id,
+        title,
+        content,
+        views,
+        timestamp
+    }
+
+    Command cmd;
 
     public Operator(Command cmd) {
         this.cmd = cmd;

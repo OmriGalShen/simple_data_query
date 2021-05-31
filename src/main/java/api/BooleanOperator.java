@@ -2,8 +2,7 @@ package api;
 
 /**
  * An abstract class used to group together operators
- * which don't require (property,value) pattern
- * used mostly for boolean requests
+ * used for boolean requests
  */
 public abstract class BooleanOperator extends Operator {
 
@@ -11,7 +10,6 @@ public abstract class BooleanOperator extends Operator {
         AND,
         OR,
         NOT,
-        DELETE,
         ALL
     }
 

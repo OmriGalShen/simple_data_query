@@ -3,7 +3,7 @@ package api;
 /**
  * An abstract class used to group together operators
  * which require (property,value) pattern
- * used mostly for compare requests
+ * used for compare requests
  */
 public abstract class CompareOperator<T> extends Operator {
     protected final CompareProperty property;
@@ -14,17 +14,8 @@ public abstract class CompareOperator<T> extends Operator {
         GREATER_THAN,
         LESS_THAN,
         BETWEEN,
-        UPDATE,
         MAX,
         MIN
-    }
-
-    public enum CompareProperty {
-        id,
-        title,
-        content,
-        views,
-        timestamp
     }
 
     public CompareOperator(Command cmd, CompareProperty property, T value) {
