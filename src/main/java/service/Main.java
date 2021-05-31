@@ -60,13 +60,13 @@ public class Main {
                             "---------------------------------------------------\n" +
                             "Operator:LESS_THAN(property,value)\nDescription:Filters only values for which property is less than the given value. Valid only for number values.\nExample:LESS_THAN(views,100) \n" +
                             "---------------------------------------------------\n" +
-                            "Operator:AND(a,b)\nDescription:Filters only values for which both a and b are true.\nExample:AND(EQUAL(id,\"s1\"),EQUAL(views,100))\n" +
+                            "Operator:AND(a,b)\nDescription:Filters only values for which both a and b are true.\nExample:AND(GREATER_THAN(views,70),EQUAL(title,\"My Second Post\"))\n" +
                             "---------------------------------------------------\n" +
                             "Operator:OR(a,b)\nDescription:Filters only values for which either a or b is true (or both).\nExample:OR(EQUAL(id,\"s1\"),EQUAL(id,\"s2\"))\n" +
                             "---------------------------------------------------\n" +
                             "Operator:NOT(a)\nDescription:Filters only values for which a is false.\nExample:NOT(EQUAL(id,\"s1\"))\n" +
                             "---------------------------------------------------\n" +
-                            "Operator:BETWEEN(property,value,value)\nDescription:Filters only values for which property is between the given value. Valid only for number values.\nExample:BETWEEN(views,20,100)\n" +
+                            "Operator:BETWEEN(property,value,value)\nDescription:Filters only values for which property is between the given values. Valid only for number values.\nExample:BETWEEN(views,20,100)\n" +
                             "---------------------------------------------------\n" +
                             "Operator:UPDATE(a,property,value)\nDescription:Update property where a is true.\nExample:UPDATE(EQUAL(id,\"s1\"),views,500)\n" +
                             "---------------------------------------------------\n" +
