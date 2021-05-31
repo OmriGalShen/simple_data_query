@@ -1,5 +1,10 @@
 package api;
 
+/**
+ * An abstract class used to group together operators
+ * which don't require (property,value) pattern
+ * used mostly for boolean requests
+ */
 public abstract class BooleanOperator extends Operator {
 
     public enum BooleanCommand {

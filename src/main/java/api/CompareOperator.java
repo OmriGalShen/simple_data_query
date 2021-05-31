@@ -1,5 +1,10 @@
 package api;
 
+/**
+ * An abstract class used to group together operators
+ * which require (property,value) pattern
+ * used mostly for compare requests
+ */
 public abstract class CompareOperator<T> extends Operator {
     protected final CompareProperty property;
     protected final T value;
