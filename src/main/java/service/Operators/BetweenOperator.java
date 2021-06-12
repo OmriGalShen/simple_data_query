@@ -19,16 +19,21 @@ public class BetweenOperator extends CompareOperator<Integer>{
         Database db = Database.getInstance();
         switch (property){
             case views:
-                return (keys.stream().filter(key-> checkPredicate(key,db)).collect(Collectors.toCollection(HashSet::new)));
+                return (keys.stream().filter(key-> checkViewsPredicate(key,db)).collect(Collectors.toCollection(HashSet::new)));
             case timestamp:
-                return (keys.stream().filter(key->db.getItem(key).getTimestamp()>this.value)).collect(Collectors.toCollection(HashSet::new));
+                return (keys.stream().filter(key->checkTimestampPredicate(key,db))).collect(Collectors.toCollection(HashSet::new));
         }
 
         return new HashSet<String>();
     }
 
-    private boolean checkPredicate(String key, Database db){
+    private boolean checkViewsPredicate(String key, Database db){
         int views = db.getItem(key).getViews();
         return ((views >= this.value) && (views <= this.compareValue));
+    }
+
+    private boolean checkTimestampPredicate(String key, Database db){
+        int timestamp = db.getItem(key).getTimestamp();
+        return ((timestamp >= this.value) && (timestamp <= this.compareValue));
     }
 }
